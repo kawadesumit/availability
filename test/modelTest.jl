@@ -22,7 +22,7 @@ demandTemp = Demand("item00001", "each", "node001", "allocated", 10)
 
     @testset "Serialization Tests" begin
         supplyString = "{\"itemId\":\"supplyItem00003\",\"uom\":\"each\",\"nodeId\":\"node001\",\"type\":\"onhand\",\"quantity\":100}"
-        supply = deserializeJSON(supplyString)
+        supply = deserializeSupplyJSON(supplyString)
         @info supply
 
         @test supply.itemId == "supplyItem00003"
@@ -32,7 +32,7 @@ demandTemp = Demand("item00001", "each", "node001", "allocated", 10)
         @test supply.quantity == 100
 
         demandString = "{\"itemId\":\"demandItem00003\",\"uom\":\"each\",\"nodeId\":\"node001\",\"type\":\"allocated\",\"quantity\":100}"
-        demand = deserializeJSON(demandString)
+        demand = deserializeDemandJSON(demandString)
         @info demand
 
         @test demand.itemId == "demandItem00003"

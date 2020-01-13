@@ -7,7 +7,7 @@ struct Demand
     quantity::Int128
 end # struct
 
-function deserializeJSON(req::String)::Demand
+function deserializeDemandJSON(req::String)::Demand
     reqDict = JSON.parse(req)
     Demand(reqDict["itemId"], reqDict["uom"], reqDict["nodeId"], reqDict["type"], reqDict["quantity"])
 end

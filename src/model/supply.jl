@@ -8,7 +8,7 @@ struct Supply
     quantity::Int128
 end # struct
 
-function deserializeJSON(req::String)::Supply
+function deserializeSupplyJSON(req::String)::Supply
     reqDict = JSON.parse(req)
     Supply(reqDict["itemId"], reqDict["uom"], reqDict["nodeId"], reqDict["type"], reqDict["quantity"])
 end
