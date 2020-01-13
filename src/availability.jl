@@ -1,6 +1,6 @@
 module availability
 
-export Supply, Demand, calculate_Avail, greet
+export Supply, Demand, calculate_Avail, greet, deserializeJSON
 
 greet() = "Welcome to Availability Service!"
 

@@ -7,12 +7,12 @@ This package manages supply, demand and computes availability.
 
 ---
 
-# Learning Topics
-## Learning in progress
+## Learning Topics
+### Learning in progress
 1. Logging
 2. Package
 
-## Completed Topics
+### Completed Topics
 1. Unit Testing
 
-## Next Topic
+### Next Topic

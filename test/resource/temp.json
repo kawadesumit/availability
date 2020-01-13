@@ -1,0 +1,7 @@
+{
+  "itemId": "item00001",
+  "uom": "each",
+  "nodeId": "node001",
+  "type": "onhand",
+  "quantity": 100
+}
