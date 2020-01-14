@@ -9,6 +9,7 @@ message = greet()
 @test "Welcome to Availability Service!" == message
 
 include("modelTest.jl")
+include("serializationTest.jl")
 
 @testset "Availability Calculations" begin
     @test calculate_Avail(supplyTemp, demandTemp) == 90

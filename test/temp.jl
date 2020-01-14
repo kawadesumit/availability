@@ -11,9 +11,9 @@ s = JSON.json(v2)
 # JSON.json(Supply("item00003", "each", "node001", "onhand", 100))
 
 supplyString = "{\"itemId\":\"supplyItem00003\",\"uom\":\"each\",\"nodeId\":\"node001\",\"type\":\"onhand\",\"quantity\":100}"
-@time supply = deserializeSupplyJSON(supplyString)
+@time supply = deserialize(supplyString, Supply)
 @info supply
 
 demandString = "{\"itemId\":\"demandItem00003\",\"uom\":\"each\",\"nodeId\":\"node001\",\"type\":\"onhand\",\"quantity\":100}"
-@time demand = deserializeDemandJSON(demandString)
+@time demand = deserialize(demandString, Demand)
 @info demand
