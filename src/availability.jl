@@ -7,6 +7,7 @@ greet() = "Welcome to Availability Service!"
 include("model/supply.jl")
 include("model/demand.jl")
 include("serialization.jl")
+include("router.jl")
 
 function calculate_Avail(supply::Supply, demand::Demand)::Int128
     @info ("calculate availability")
