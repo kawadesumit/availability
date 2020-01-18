@@ -1,19 +1,50 @@
-using JSON
+println(repeat("-", 50))
+for i in (Int8, Int16, Int32, Int64,Int128)
+    println("$i range = $(typemin(i)), $(typemax(i))")
+end
+println(repeat("-", 50))
 
-JSON.json([1, 2])
 
-v1 = Dict([("t", 1), ("w", 1)])
-JSON.json(v1)
+for i in 1:1000
+    a = Char(i)
+    length(a) > 0 ? print("$(a) : ") : print("NOT_FOUND");break
+end
 
-v2 = Dict("a1"=>1, "a2"=>2, "a3"=>Dict("b"=>2))
-s = JSON.json(v2)
+a = """hello !!
+I am Sumit Kawade.
+I am learning "Julia language".
+I find it easier for my next growth.
+"""
 
-# JSON.json(Supply("item00003", "each", "node001", "onhand", 100))
+b = a[1:10]
+c = a[12:50]
+d = replace(a, Pair(" ", "             "))
 
-supplyString = "{\"itemId\":\"supplyItem00003\",\"uom\":\"each\",\"nodeId\":\"node001\",\"type\":\"onhand\",\"quantity\":100}"
-@time supply = deserialize(supplyString, Supply)
-@info supply
+e = a[end - 50: end]
 
-demandString = "{\"itemId\":\"demandItem00003\",\"uom\":\"each\",\"nodeId\":\"node001\",\"type\":\"onhand\",\"quantity\":100}"
-@time demand = deserialize(demandString, Demand)
-@info demand
+first(a, 10)
+
+firstindex(a)
+lastindex(a)
+
+f = collect(a)
+
+sizeof(f)
+
+@. length(f)
+
+g = "f: $f"
+
+h = sort([1, 3 , 5, 2, 6, 2, 3 , 7])
+
+i = sort(["abc", "bcd", "cde", "abd"])
+
+j = findall("I", a)
+
+h = join([1, 2, 3, 4, 5], " \n", "\n$(repeat("a", 10))")
+
+codeunit(a, 1)
+
+length(a)
+
+nextind(a, 1, 4)

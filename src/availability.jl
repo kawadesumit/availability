@@ -1,8 +1,6 @@
 module availability
 
-export Supply, Demand, calculate_Avail, greet
-
-greet() = "Welcome to Availability Service!"
+export Supply, Demand, calculate_Avail
 
 include("model/supply.jl")
 include("model/demand.jl")
