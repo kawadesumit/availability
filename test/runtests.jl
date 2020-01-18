@@ -5,9 +5,6 @@ using availability, Test
 # @warn "warning !!!"
 # @debug "debug !!!"
 
-message = greet()
-@test "Welcome to Availability Service!" == message
-
 include("modelTest.jl")
 include("serializationTest.jl")
 
