@@ -41,10 +41,79 @@ i = sort(["abc", "bcd", "cde", "abd"])
 
 j = findall("I", a)
 
-h = join([1, 2, 3, 4, 5], " \n", "\n$(repeat("a", 10))")
+k = join([1, 2, 3, 4, 5], " \n", "\n$(repeat("a", 10))")
 
 codeunit(a, 1)
 
 length(a)
 
 nextind(a, 1, 4)
+
+l = b"$a"
+
+m = (4 ,2, 4)
+m1 = m[2]
+length(m)
+sizeof(m)
+
+sort(collect(m))
+for i in m; println(i); end
+
+n = (x=1, y=2, z=3, a=1, b=2)
+
+typeof(n)
+
+keys(n)
+
+for a in keys(n)
+    println("$a = $(n[a])")
+end
+
+function getBeforeAfter(in::NamedTuple, indx::Int)
+    if length(in) < indx
+        return nothing
+    end
+    in[indx-1], in[indx], length(in) < indx ? in[indx+1] : nothing
+
+end
+
+getBeforeAfter(n, 6)
+
+
+o(x, y, z...) = (x, y, z)
+
+o1 = o(1, 2, 3, 4, 5)
+
+for i in o1
+    println(i)
+end
+
+function withOptionalValues(x=1, y=2, z=3)
+    println("x=$x, y=$y, z=$z")
+end
+
+withOptionalValues()
+
+
+p = map(x -> x^2, 1:10)
+
+p1 = map(1:100) do x
+     x^2, (x+1)^2
+ end
+
+open("README.md", "r") do io
+        println(readuntil(io, "232221"))
+end
+
+q = map(first ∘ uppercase, split("sumit is learning Julia language"))
+
+square(x) = x.^2
+
+1:10000 |> sum |> square
+
+ r = [1, 2, 3, 4, 5]
+
+r1 = square.(square.(r))
+r2 = @. square(square(r))
+isequal(r1, r2)
+r1 == r2
