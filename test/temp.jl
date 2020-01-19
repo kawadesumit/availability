@@ -117,3 +117,11 @@ r1 = square.(square.(r))
 r2 = @. square(square(r))
 isequal(r1, r2)
 r1 == r2
+
+try
+    throw(AvailabilityException(1, "random"))
+catch e
+    println("Exception occurred: ", e)
+finally
+    println("exiting try/catch block")
+end
