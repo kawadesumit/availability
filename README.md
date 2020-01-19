@@ -16,3 +16,5 @@ This package manages supply, demand and computes availability.
 1. Unit Testing
 
 ### Next Topic
+1. [SQLite](https://juliadatabases.github.io/SQLite.jl/stable/)
+2. [JuliaDB](https://juliadb.org/)

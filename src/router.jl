@@ -1,9 +1,35 @@
-using HTTP, availability, Sockets, JSON, Random
+using HTTP, availability, Sockets, JSON, Random, JuliaDB
 
 const AVAILABILITY_ROUTER = HTTP.Router()
 
+supplyDataset = load("temp.dat")
+
+function toSupplyArray(res)
+        list = [];
+
+        for i in res
+                push!(list, availability.Supply(i.itemId, i.uom, i.nodeId, i.type, i.quantity))
+        end
+
+        return list
+end
+
 function getSupply(req::HTTP.Request)
-        out = availability.Supply("item01", "each", "node01", "onhand", Random.rand(1:1000))
+        @show req
+
+        itemId = HTTP.URIs.splitpath(req.target)[2]
+        @show "itemId: $(itemId)"
+
+        result = filter(r -> isequal(r.itemId, itemId), supplyDataset)
+        @show result
+
+        if(length(result) < 1)
+                out = Dict("total" => length(result), "supplies" => toSupplyArray(result))
+        else
+                # res = result[1]
+                # out = availability.Supply(res.itemId, res.uom, res.nodeId, res.type, res.quantity)
+                out = Dict("total" => length(result), "supplies" => toSupplyArray(result))
+        end
         response = HTTP.Response(200, JSON.json(out))
         HTTP.setheader(response, "Content-Type" => "application/json")
         HTTP.setheader(response, "myHeader" => "headerValue1")

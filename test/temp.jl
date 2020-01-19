@@ -125,3 +125,54 @@ catch e
 finally
     println("exiting try/catch block")
 end
+
+
+# -------------------------------------------------
+using JuliaDB
+
+supplyTemp = Supply("item00001", "each", "node001", "onhand", 100)
+
+t = table([1, 2, 3, 4, 5], [2, 3, 4, 5, 6]; names = [:x, :y])
+# t = table((itemId=supplyTemp.itemId, uom=supplyTemp.uom, nodeId=supplyTemp.nodeId, type=supplyTemp.type, quantity=supplyTemp.quantity); pkey=[:itemId, :uom, :nodeId, :type])
+
+save(t, "temp.dat")
+
+filter(r -> r.x == 2, t)
+
+push!(rows(t), (x=20, y=40))
+
+# ------------------------------------------------
+# Tasks - async / parallel/ multi-threaded programming
+
+varsize = 1_000_000
+function supplyProducer(c::Channel)
+    for i in 1:varsize
+        s = Supply(string("item_", rand(1:1000)), "each", string("node_", rand(1:100)), "onhand", rand(1:1000))
+        put!(c, s)
+    end
+end
+
+consumer = Channel(supplyProducer)
+
+supplyArray = []
+
+@time for i in 1:varsize
+    u = take!(consumer)
+    # println(u)
+    push!(supplyArray, u)
+end
+
+u1 = table([], [], [], [], []; names = (:itemId, :uom, :nodeId, :type, :quantity))
+
+@time for supply in supplyArray
+    push!(rows(u1), (itemId = supply.itemId, uom = supply.uom, nodeId = supply.nodeId, type=supply.type, quantity=supply.quantity))
+    # push!(([1], [2], [3], [4], [5]))
+    # push!(rows(u1), (1, 2, 3, 4, 5))
+end
+
+save(u1, "temp.dat")
+
+# u1 = load("temp.dat")
+u2 = filter(r -> r.quantity > 1 && r.itemId == "item_453", u1)
+
+u3 = filter(r -> isequal(r.itemId, "item_453"), u1)
