@@ -15,22 +15,26 @@ function toSupplyArray(res)
 end
 
 function getSupply(req::HTTP.Request)
-        @show req
+        # @show req
 
         itemId = HTTP.URIs.splitpath(req.target)[2]
-        @show "itemId: $(itemId)"
+        # @show "itemId: $(itemId)"
 
         result = filter(r -> isequal(r.itemId, itemId), supplyDataset)
-        @show result
+        # @show result
+
+        out = Dict(
+                "totalRecords" => length(result),
+                "totalQuantity" => ((t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, itemId), t)))(result) |> sum,
+                "supplies" => toSupplyArray(result))
 
         if(length(result) < 1)
-                out = Dict("total" => length(result), "supplies" => toSupplyArray(result))
+                status = 404
         else
-                # res = result[1]
-                # out = availability.Supply(res.itemId, res.uom, res.nodeId, res.type, res.quantity)
-                out = Dict("total" => length(result), "supplies" => toSupplyArray(result))
+                status = 200
         end
-        response = HTTP.Response(200, JSON.json(out))
+
+        response = HTTP.Response(status, JSON.json(out))
         HTTP.setheader(response, "Content-Type" => "application/json")
         HTTP.setheader(response, "myHeader" => "headerValue1")
 
@@ -45,7 +49,6 @@ end
 
 HTTP.@register(AVAILABILITY_ROUTER, "GET", "/supplies/*", getSupply)
 HTTP.@register(AVAILABILITY_ROUTER, "POST", "/supplies", createSupply)
-
 
 # @async HTTP.serve(AVAILABILITY_ROUTER, Sockets.localhost, 8081)
 HTTP.serve(AVAILABILITY_ROUTER, Sockets.localhost, 8081)

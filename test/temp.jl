@@ -165,14 +165,54 @@ end
 u1 = table([], [], [], [], []; names = (:itemId, :uom, :nodeId, :type, :quantity))
 
 @time for supply in supplyArray
-    push!(rows(u1), (itemId = supply.itemId, uom = supply.uom, nodeId = supply.nodeId, type=supply.type, quantity=supply.quantity))
+    push!(rows(u1), (itemId = supply.itemId, uom = supply.uom, nodeId =
+        supply.nodeId, type=supply.type, quantity=supply.quantity))
     # push!(([1], [2], [3], [4], [5]))
     # push!(rows(u1), (1, 2, 3, 4, 5))
 end
 
 save(u1, "temp.dat")
+u1 = load("temp.dat")
 
-# u1 = load("temp.dat")
 u2 = filter(r -> r.quantity > 1 && r.itemId == "item_453", u1)
 
 u3 = filter(r -> isequal(r.itemId, "item_453"), u1)
+u31 = select(u3, :quantity) |> sum
+
+u4 = select(filter(r -> isequal(r.itemId, "item_453"), u1), :quantity) |> sum
+u5 = mySelectQty(myItemFilter(u3)) |> sum
+
+u5 = (mySelectQty ∘ myItemFilter)(u1) |> sum
+
+u6 = ((t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum
+
+function mySelectQty(tab::IndexedTable)
+    select(tab, :quantity)
+end
+
+function myItemFilter(tab::IndexedTable)
+    filter(r -> isequal(r.itemId, "item_453"), tab)
+end
+
+
+function squareAndPrint(arg)
+    out = square(arg)
+    println("square($arg) = $out")
+end
+
+u4 = Task(() -> squareAndPrint(6))
+istaskstarted(u4)
+istaskdone(u4)
+istaskfailed(u4)
+a = schedule(u4, 3)
+
+# b = yieldto(u4) TODO it is not returning control back to the main thread. Also, function is not executing. process gets stuck
+# yieldto(current_task())
+
+println(b)
+
+# ----------------------------------------
+# types, parameteric types, abstract types, etc
+
+u7 = ((applySupplyAdjusters) ∘ (t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum
+@time u8 = ((applySupplyAdjusters) ∘ (t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum

@@ -18,3 +18,4 @@ This package manages supply, demand and computes availability.
 ### Next Topic
 1. [SQLite](https://juliadatabases.github.io/SQLite.jl/stable/)
 2. [JuliaDB](https://juliadb.org/)
+3. [Julia Learning](https://julialang.org/learning/)
