@@ -216,3 +216,54 @@ println(b)
 
 u7 = ((applySupplyAdjusters) ∘ (t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum
 @time u8 = ((applySupplyAdjusters) ∘ (t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum
+
+# ----------------------------------------
+# interfaces
+
+struct Square
+    num::Int
+end
+
+v1 = Square(10)
+
+Base.iterate(in::Square, i=1) = i > in.num ? nothing : (i*i, i+1)
+
+@time for val in Square(10)
+    println("val=$(val)")
+end
+
+125 in v1
+
+using Statistics
+mean(v1)
+sum(v1)
+
+mean(Square(2))
+sum(Square(2))
+
+Base.eltype(::Type{Square}) = Int
+Base.length(s::Square) = s.num
+
+collect(v1)
+
+function Base.getindex(S::Square, i::Int)
+    1 <=i <=S.num || throw(BoundsError(S, i))
+
+    return i * i
+end
+
+Square(1000)[15]
+
+Base.firstindex(S::Square) = 1
+Base.lastindex(S::Square) = length(S::Square)
+
+firstindex(Square(10000))
+lastindex(Square(10010))
+
+Square(10010)[end]
+
+Base.getindex(S::Square, i) = [S[i1] for i1 in i]
+
+Square(100)[(1, 5, 4, 3, 9)]
+
+Square(100)[[1, 5, 4, 3, 9]]
