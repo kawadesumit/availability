@@ -4,6 +4,8 @@ authors = ["Sumit Kawade @ Home <kawadesumit@gmail.com>"]
 version = "0.1.0"
 
 [deps]
+BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
+Debugger = "31a5f54b-26ea-5ae9-a837-f05ce5417438"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 JuliaDB = "a93385a2-3734-596a-9a66-3cfbb77141e6"

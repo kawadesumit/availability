@@ -1,10 +1,11 @@
 module availability
 
-export Supply, Demand, calculate_Avail
+export Supply, Demand, calculate_Avail, applySupplyAdjusters
 
 include("model/supply.jl")
 include("model/demand.jl")
 include("serialization.jl")
+include("adjuster.jl")
 include("exception/exceptions.jl")
 # include("router.jl")
 

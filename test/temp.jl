@@ -1,3 +1,5 @@
+using availability
+
 println(repeat("-", 50))
 for i in (Int8, Int16, Int32, Int64,Int128)
     println("$i range = $(typemin(i)), $(typemax(i))")
@@ -180,20 +182,20 @@ u3 = filter(r -> isequal(r.itemId, "item_453"), u1)
 u31 = select(u3, :quantity) |> sum
 
 u4 = select(filter(r -> isequal(r.itemId, "item_453"), u1), :quantity) |> sum
-u5 = mySelectQty(myItemFilter(u3)) |> sum
-
-u5 = (mySelectQty ∘ myItemFilter)(u1) |> sum
-
-u6 = ((t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum
-
-function mySelectQty(tab::IndexedTable)
-    select(tab, :quantity)
-end
 
 function myItemFilter(tab::IndexedTable)
     filter(r -> isequal(r.itemId, "item_453"), tab)
 end
 
+function mySelectQty(tab::IndexedTable)
+    select(tab, :quantity)
+end
+
+u5 = mySelectQty(myItemFilter(u3)) |> sum
+
+u5 = (mySelectQty ∘ myItemFilter)(u1) |> sum
+
+u6 = ((t -> select(t, :quantity)) ∘ (t -> filter(r -> isequal(r.itemId, "item_453"), t)))(u1) |> sum
 
 function squareAndPrint(arg)
     out = square(arg)
@@ -228,8 +230,9 @@ v1 = Square(10)
 
 Base.iterate(in::Square, i=1) = i > in.num ? nothing : (i*i, i+1)
 
-@time for val in Square(10)
-    println("val=$(val)")
+@benchmark for val in Square(10)
+    # println("val=$(val)")
+    val * val
 end
 
 125 in v1
